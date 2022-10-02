@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisador de números</title>
+    <link rel="stylesheet" href="estilo16ex.css">
+</head>
+
+<body>
+    <header>
+        <h1>Analisador de números</h1>
+    </header>
+    <section>
+
+        <div id="info">
+            <p id="titulo">Número (entre 1 a 100)</p>
+            <input type="number" name="numero" id="numero" min="0" max="100">
+            
+        </div>
+        <div id = 'butoes'>
+            <input class= "botoa" type="button" value="Salvar" id="salvar" onclick="numero.salvar()">
+            <input class= "botoa" type="button" value="Limpar" id="limpar" onclick="numero.limpar()">
+            <input class= "botoa" type="button" value="Finalizar" id="finalizar" onclick="numero.finalizar()">
+            
+        </div>
+
+        <div align="center" >
+            <select name="analisador" id="analisador" size="8"> </select>
+        </div>
+
+        <div id="texto"></div>
+
+    </section>
+    <footer>
+        <p>&copy; Nillbert</p>
+    </footer>
+    <script src="script16ex.js"></script>
+</body>
+
+</html>
