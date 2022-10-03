@@ -7,6 +7,138 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Analisador de números</title>
     <link rel="stylesheet" href="estilo16ex.css">
+    <style>body {
+    background: linear-gradient(228.04deg, #57C4B1 13.63%, #193833 77.36%)fixed;
+    font: normal 15pt Comic Sans MS;
+}
+
+header {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 44px;
+    text-align: center;
+    color: #F1F6F3;
+}
+
+section {
+    background: #E1FCF7;
+    border: 3px solid #E1FCF7;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 13px 16px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 19px;
+    padding: 15px;
+    width: 500px;
+    height: 550px;
+    box-sizing: border-box;
+    margin: auto;
+
+}
+
+#info {
+    margin-top: 30px;
+    text-align: center
+}
+
+#titulo {
+    text-align: center
+}
+
+#butoes {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 20px;
+
+}
+
+#numero {
+    border: none;
+    width: 100px;
+    margin: 4px;
+    padding: 6px;
+    border-radius: 7px;
+    border-bottom: 2px solid;
+}
+
+.botoa {
+    margin-left: 10px;
+    background: rgb(14, 11, 11);
+    color: #F1F6F3;
+    border-radius: 30px;
+    transition: transform 0.3s ease;
+    padding: 0.8rem 1.5rem;
+
+    border: none;
+    font-size: 1rem;
+}
+
+
+.botoa::after,
+.botoa::before {
+    content: '';
+    position: absolute;
+    opacity: 0.3;
+    background: #0C0D15;
+    border-radius: inherit;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    bottom: 0;
+    z-index: -1;
+    transition: transform 0.3s ease;
+}
+
+.botoa:hover {
+    transform: translate(-12px, -12px);
+}
+
+.botoa:hover::after {
+    transform: translate(6px, 6px);
+}
+
+
+.botoa:hover::before {
+    transform: translate(10px, 10px);
+}
+
+#analisador {
+    /* width: 400px;  */
+    text-align: unset;
+    border-radius: 15px;    
+    width: 250px;
+    float: center;
+    font-weight: 200;
+    font-size: 15px;
+    background-color:  #dce4e2 ;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #1c1c1c;
+    border: 1.8px solid #1c1c1c;
+    border-radius: 100px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #ecf4ff;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #ecf4ff;
+    border-radius: 100px;
+    box-shadow: inset 0px 0px 0px 0px #f0f0f0;
+    margin: 15px 0px;
+  }
+  
+
+footer {
+    color: #F1F6F3;
+    text-align: center;
+}</style>
 </head>
 
 <body>
@@ -37,7 +169,169 @@
     <footer>
         <p>&copy; Nillbert</p>
     </footer>
-    <script src="script16ex.js"></script>
+    <script>class Numero {
+
+    constructor() {
+        this.numeros = []
+        this.pp = 0
+    }
+
+    salvar() {
+        let numero = this.lerDados()
+
+        if (this.validarCampo(numero)) {
+            this.adicionar(numero)
+            this.listaNumeros()
+        }
+        
+        this.apagar()
+        document.querySelector('input#numero').focus()
+    }
+    finalizar() {
+
+        if (this.checarNumeros()) {
+            let res = document.getElementById("texto")
+            var maior = Math.max.apply(null, this.numeros);
+            var min = Math.min.apply(null, this.numeros);
+            let soma = 0
+
+/*      Alternativa
+            let maior = this.numeros[0]
+            let menor = this.numeros[0]
+            let soma, média = 0
+            for(let pos in this.numeros){
+                soma += this.numeros[pos]
+                if (this.numeros[pos] > maior){
+                    maior = valores[pos]}
+                if (this.numeros[pos] < menor){
+                    menor = this.numeros[pos]
+                }
+            }
+*/
+            for (let x in this.numeros) {
+                soma += this.numeros[x]
+            }
+
+            let media = (soma / (this.numeros.length)).toFixed(1)
+            res.innerHTML += `- Ao todo temos ${this.numeros.length} números cadastrados;<br>`
+            res.innerHTML += `- O menor valor informado foi ${min};<br>`
+            res.innerHTML += `- O maior valor informado foi ${maior};<br>`
+            res.innerHTML += `- Somando todos os numeros temos ${soma};<br>`
+            res.innerHTML += `- A média dos valores digitados é ${media}.`
+            this.pp++
+        }
+    }
+
+
+    limpar(){
+        document.getElementById('numero').value = ''
+        document.getElementById("texto").innerHTML = ""
+        this.numeros.length = 0
+        document.getElementById('analisador').innerHTML = ""
+    }
+
+    checarNumeros() {
+        let msg = ''
+        let res = document.getElementById("texto")
+
+        if (this.numeros.length == 0) {
+            msg += 'Nenhum número inserido, até o momento \n'
+        }
+
+        if (this.pp != 0) {
+            msg += 'Resultado já analisado, refaça a inserção dos números.'
+        }
+
+
+        if (msg != '') {
+            alert(msg)
+            return false
+        }
+
+        return true
+
+    }
+
+    listaNumeros() {
+        let analisador = document.querySelector("#analisador")
+        analisador.innerHTML = ''
+        for (let x = 0; x < this.numeros.length; x++) {
+            let item = document.createElement('option')
+            item.text += ` Valor ${this.numeros[x]} adicionado`
+            item.value += `tab${x}`
+            analisador.appendChild(item)
+        }
+
+    }
+
+    validarNumero(numero) {
+        let msg = ''
+
+        for (var posicao = 0; posicao < this.numeros.length; posicao++) {
+
+            if (this.numeros[posicao] == this.numeros) {
+                this.existe = true;
+                msg += 'Número já adicionado'
+            }
+        }
+
+
+
+
+        if (msg != '') {
+            alert(msg)
+            return false
+        }
+        return true;
+    }
+
+
+
+    adicionar(numero) {
+        this.numeros.push(numero)
+    }
+    lerDados() {
+        let inseridonumero = Number(document.querySelector('input#numero').value)
+        return inseridonumero;
+    }
+
+
+    validarCampo(numero) {
+        let msg = ''
+
+        if (this.numeros.indexOf(numero) != -1) {
+            msg += "Número já inserido"
+        }
+
+
+        if (numero == '') {
+            msg += 'Informe o numero'
+        }
+
+        if (numero < 0) {
+            msg += 'Número menor que 0'
+        }
+
+        if (numero > 100) {
+            msg += 'Número mairo que 100'
+        }
+
+        if (msg != '') {
+            alert(msg)
+            return false
+        }
+
+        return true;
+    }
+
+    apagar() {
+        document.getElementById('numero').value = ''
+        document.getElementById("texto").innerHTML = ""
+        this.pp = 0
+    }
+}
+
+var numero = new Numero()</script>
 </body>
 
 </html>
